@@ -1,0 +1,6 @@
+
+ please reference http://bloggingabout.net/blogs/mglaser/archive/2006/11/06/How-to-debug-a-Visual-Studio-.NET-2005-Add_2D00_In.aspx
+		  http://msdn.microsoft.com/en-us/library/19dax6cz(VS.80).aspx
+ or
+
+ put move this file - "ZAssist - For Testing.AddIn" - to C:\Documents and Settings\USER_ID\My Documents\Visual Studio 2005\Addins
