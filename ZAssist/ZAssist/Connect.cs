@@ -44,7 +44,8 @@ namespace ZAssist
 		/// <seealso class='IDTExtensibility2' />
 		public void OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom)
 		{
-            AddNewSubCommand("OpenSolutionFolder");
+            AddNewSubCommand("OpenSolutionFolderExplorer");
+            AddNewSubCommand("OpenSolutionFolderCmd");
             AddNewSubCommand("OpenCorrespondingFile");
             AddNewSubCommand("OpenFileInSolution");
 
@@ -237,7 +238,7 @@ namespace ZAssist
                         handled = true;
                         return;
                     }
-                    if (commandName == "ZAssist.Connect.OpenSolutionFolder")
+                    if (commandName == "ZAssist.Connect.OpenSolutionFolderExplorer")
                     {
                         string strSolutionFileName = _applicationObject.Solution.FileName;
                         if (strSolutionFileName.Length <= 0)
@@ -253,6 +254,25 @@ namespace ZAssist
                         handled = true;
                         return;
                     }
+                    if (commandName == "ZAssist.Connect.OpenSolutionFolderCmd")
+                    {
+                        string strSolutionFileName = _applicationObject.Solution.FileName;
+                        if (strSolutionFileName.Length <= 0)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Load solution first");
+                        }
+                        else
+                        {
+                            string openDir = System.IO.Path.GetDirectoryName(strSolutionFileName);
+
+                            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo("cmd.exe");
+                            info.WorkingDirectory = openDir;
+                            System.Diagnostics.Process.Start(info);
+                        }
+
+                        handled = true;
+                        return;
+                    } 
                     if (commandName == "ZAssist.Connect.OpenFileInSolution")
                     {
                         OpenFileInSolutionForm form = new OpenFileInSolutionForm(_applicationObject);
