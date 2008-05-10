@@ -86,7 +86,7 @@
             this.Name = "OpenFileInSolutionForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "OpenFileInSolutionForm";
+            this.Text = "Open File In Solution Dialog";
             this.ResumeLayout(false);
             this.PerformLayout();
 
