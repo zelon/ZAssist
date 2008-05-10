@@ -73,15 +73,16 @@ namespace ZAssist
 				try
 				{
 					//명령 컬렉션에 명령 추가:
-					Command command = commands.AddNamedCommand2(_addInInstance, "ZAssist", "ZAssist", "Executes the command for ZAssist", true, 59, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported+(int)vsCommandStatus.vsCommandStatusEnabled, (int)vsCommandStyle.vsCommandStylePictAndText, vsCommandControlType.vsCommandControlTypeButton);
+					//Command command = commands.AddNamedCommand2(_addInInstance, "ZAssist", "ZAssist", "Executes the command for ZAssist", true, 59, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported+(int)vsCommandStatus.vsCommandStatusEnabled, (int)vsCommandStyle.vsCommandStylePictAndText, vsCommandControlType.vsCommandControlTypeButton);
 
                     openCorrespondingFile = commands.AddNamedCommand(_addInInstance, "OpenCorrespondingFile", "OpenCorrespondingFile", "OpenCorrespondingFile", true, 58, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
+
                     openSolutionFolder = commands.AddNamedCommand(_addInInstance, "OpenSolutionFolder", "OpenSolutionFolder", "OpenSolutionFolder", true, 57, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
                     //도구 메뉴에 명령에 대한 컨트롤 추가:
-					if((command != null) && (toolsPopup != null))
-					{
-						command.AddControl(toolsPopup.CommandBar, 1);
-					}
+					//if((command != null) && (toolsPopup != null))
+					//{
+					//	command.AddControl(toolsPopup.CommandBar, 1);
+					//}
 
                     CommandBar toolsMenu = ((CommandBars)(_applicationObject.CommandBars))["Tools"];
 
@@ -89,7 +90,7 @@ namespace ZAssist
 
                     subMenu = commandBarPopup;
                     subMenu.Visible = true;
-                    subMenu.Caption = "SubMenu";
+                    subMenu.Caption = "ZAssist";
 
                     if (openSolutionFolder != null)
                     {
@@ -100,13 +101,13 @@ namespace ZAssist
                     {
                         openCorrespondingFile.AddControl(subMenu.CommandBar, 2);
                     }
-
 				}
-				catch(System.ArgumentException)
+				catch(System.ArgumentException ex)
 				{
 					//이 경우, 같은 이름의 명령이 이미 있기 때문에 예외가 발생할 수
 					//  있습니다. 이 경우 명령을 다시 만들 필요가 없으며 예외를 무시해도 
                     //  됩니다.
+                    System.Diagnostics.Debug.Print(ex.Message);
 				}
 			}
 		}
@@ -150,12 +151,6 @@ namespace ZAssist
 		{
 			if(neededText == vsCommandStatusTextWanted.vsCommandStatusTextWantedNone)
 			{
-				if(commandName == "ZAssist.Connect.ZAssist")
-				{
-					status = (vsCommandStatus)vsCommandStatus.vsCommandStatusSupported|vsCommandStatus.vsCommandStatusEnabled;
-					return;
-				}
-
                 if ( commandName == "ZAssist.Connect.OpenCorrespondingFile" )
                 {
                     status = (vsCommandStatus)vsCommandStatus.vsCommandStatusSupported|vsCommandStatus.vsCommandStatusEnabled;
@@ -184,11 +179,6 @@ namespace ZAssist
                 handled = false;
                 if (executeOption == vsCommandExecOption.vsCommandExecOptionDoDefault)
                 {
-                    if (commandName == "ZAssist.Connect.ZAssist")
-                    {
-                        handled = true;
-                        return;
-                    }
                     if (commandName == "ZAssist.Connect.OpenCorrespondingFile")
                     {
                         if (_applicationObject.ActiveDocument != null)
@@ -216,7 +206,12 @@ namespace ZAssist
 
                                 if (File.Exists(newfilename))
                                 {
-                                    _applicationObject.OpenFile(EnvDTE.Constants.vsViewKindPrimary, newfilename);
+                                    Window w = _applicationObject.OpenFile(EnvDTE.Constants.vsViewKindPrimary, newfilename);
+
+                                    if (w != null)
+                                    {
+                                        w.Activate();
+                                    }
                                 }
                                 else
                                 {
