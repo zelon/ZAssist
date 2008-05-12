@@ -25,7 +25,7 @@ namespace ZAssist
 
         protected System.Collections.Generic.List<NewCommandData> m_commands = new System.Collections.Generic.List<NewCommandData>();
 
-        protected struct NewCommandData
+        protected class NewCommandData
         {
             public string m_strCommandName;
         }
@@ -104,7 +104,21 @@ namespace ZAssist
                     int iMenuIndex = 1;
                     foreach (NewCommandData newCommData in m_commands)
                     {
-                        Command newCommand = commands.AddNamedCommand(_addInInstance, newCommData.m_strCommandName, newCommData.m_strCommandName, newCommData.m_strCommandName, true, 58, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
+                        Command newCommand = null;
+
+                        try
+                        {
+                            newCommand = commands.Item(_addInInstance.ProgID + "." + newCommData.m_strCommandName, -1);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.Print("이미 존재하는지 검사하는 곳에서 exception 발생 : ", ex.Message);
+                        }
+
+                        if ( null == newCommand )
+                        {
+                            newCommand = commands.AddNamedCommand(_addInInstance, newCommData.m_strCommandName, newCommData.m_strCommandName, newCommData.m_strCommandName, true, 58, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
+                        }
 
                         if (newCommand != null)
                         {
