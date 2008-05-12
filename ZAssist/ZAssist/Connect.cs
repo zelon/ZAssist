@@ -289,8 +289,16 @@ namespace ZAssist
                     } 
                     if (commandName == "ZAssist.Connect.OpenFileInSolution")
                     {
-                        OpenFileInSolutionForm form = new OpenFileInSolutionForm(_applicationObject);
-                        form.Show();
+                        string strSolutionFileName = _applicationObject.Solution.FileName;
+                        if (strSolutionFileName.Length <= 0)
+                        {
+                            System.Windows.Forms.MessageBox.Show(new WindowWrapper((IntPtr)_applicationObject.MainWindow.HWnd), "Load solution first");
+                        }
+                        else
+                        {
+                            OpenFileInSolutionForm form = new OpenFileInSolutionForm(_applicationObject);
+                            form.Show(new WindowWrapper((IntPtr)_applicationObject.MainWindow.HWnd));
+                        }
 
                         handled = true;
                         return;
