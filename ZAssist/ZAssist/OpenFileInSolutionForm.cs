@@ -60,10 +60,12 @@ namespace ZAssist
                 }
                 else
                 {
+
                     Window w = m_app.OpenFile(EnvDTE.Constants.vsViewKindPrimary, fullpath);
 
                     if (w != null)
                     {
+                        w.SetFocus();
                         w.Activate();
 
                         Close();
@@ -78,7 +80,11 @@ namespace ZAssist
 
         void EnumProjectItems(EnvDTE.ProjectItem item)
         {
-            if (item.ProjectItems.Count <= 0)
+            if (item == null) return;
+
+            if (item.Properties == null || item.ProjectItems == null) return;
+
+            if ( item.ProjectItems.Count <= 0)
             {
                 ProjectFileData data = new ProjectFileData();
                 data.m_strFileName = item.Name;
@@ -116,7 +122,11 @@ namespace ZAssist
 
         private void FileCandidateList_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 13) ///< Enter Key
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                Close();
+            }
+            if (e.KeyChar == (char)Keys.Enter)
             {
                 SelectGo();
             }
@@ -124,7 +134,11 @@ namespace ZAssist
 
         private void FindString_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 13) ///< Enter Key
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                this.Close();
+            }
+            if (e.KeyChar == (char)Keys.Enter)
             {
                 SelectGo();
             }
@@ -134,8 +148,8 @@ namespace ZAssist
         {
             if (m_lvCandidate.Items.Count <= 0) return;
 
-            if (e.KeyValue == 40 || ///< Down Key
-                   e.KeyValue == 38 )
+            if (e.KeyValue == (char)Keys.Down ||
+                   e.KeyValue == (char)Keys.Up )
             {
                 m_lvCandidate.Focus();
             }
