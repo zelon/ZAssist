@@ -51,6 +51,7 @@
     <Compile Include="OpenFileInSolutionForm.Designer.cs">
       <DependentUpon>OpenFileInSolutionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WindowWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommandBar.resx">
