@@ -52,6 +52,7 @@
       <DependentUpon>OpenFileInSolutionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WindowWrapper.cs" />
+    <Compile Include="ZAssistManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommandBar.resx">
