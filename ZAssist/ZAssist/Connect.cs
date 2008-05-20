@@ -16,7 +16,7 @@ namespace ZAssist
 	/// <seealso class='IDTExtensibility2' />
 	public class Connect : IDTExtensibility2, IDTCommandTarget
 	{
-		/// <summary>Add-in 개체에 대한 생성자를 구현합니다. 이 메서드 안에 초기화 코드를 만드십시오.</summary>
+        /// <summary>Add-in 개체에 대한 생성자를 구현합니다. 이 메서드 안에 초기화 코드를 만드십시오.</summary>
 		public Connect()
 		{
 		}
@@ -48,7 +48,6 @@ namespace ZAssist
             AddNewSubCommand("OpenSolutionFolderCmd");
             AddNewSubCommand("OpenCorrespondingFile");
             AddNewSubCommand("OpenFileInSolution");
-
 
 			_applicationObject = (DTE2)application;
 			_addInInstance = (AddIn)addInInst;
@@ -91,8 +90,6 @@ namespace ZAssist
 				try
 				{
 					//명령 컬렉션에 명령 추가:
-					//Command command = commands.AddNamedCommand2(_addInInstance, "ZAssist", "ZAssist", "Executes the command for ZAssist", true, 59, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported+(int)vsCommandStatus.vsCommandStatusEnabled, (int)vsCommandStyle.vsCommandStylePictAndText, vsCommandControlType.vsCommandControlTypeButton);
-
                     CommandBar toolsMenu = ((CommandBars)(_applicationObject.CommandBars))["Tools"];
 
                     CommandBarPopup commandBarPopup = (CommandBarPopup)toolsMenu.Controls.Add(MsoControlType.msoControlPopup, System.Reflection.Missing.Value, System.Reflection.Missing.Value, 1, true);
@@ -117,7 +114,7 @@ namespace ZAssist
 
                         if ( null == newCommand )
                         {
-                            newCommand = commands.AddNamedCommand(_addInInstance, newCommData.m_strCommandName, newCommData.m_strCommandName, newCommData.m_strCommandName, true, 58, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
+                            newCommand = commands.AddNamedCommand(_addInInstance, newCommData.m_strCommandName, newCommData.m_strCommandName, newCommData.m_strCommandName, true, 59, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
                         }
 
                         if (newCommand != null)
@@ -212,51 +209,21 @@ namespace ZAssist
                     }
                     if (commandName == "ZAssist.Connect.OpenSolutionFolderExplorer")
                     {
-                        string strSolutionFileName = _applicationObject.Solution.FileName;
-                        if (strSolutionFileName.Length <= 0)
-                        {
-                            System.Windows.Forms.MessageBox.Show("Load solution first");
-                        }
-                        else
-                        {
-                            string openDir = System.IO.Path.GetDirectoryName(strSolutionFileName);
-                            System.Diagnostics.Process.Start(openDir);
-                        }
+                        ZAssistManager.OpenSolutionFolderExplorer(_applicationObject);
 
                         handled = true;
                         return;
                     }
                     if (commandName == "ZAssist.Connect.OpenSolutionFolderCmd")
                     {
-                        string strSolutionFileName = _applicationObject.Solution.FileName;
-                        if (strSolutionFileName.Length <= 0)
-                        {
-                            System.Windows.Forms.MessageBox.Show("Load solution first");
-                        }
-                        else
-                        {
-                            string openDir = System.IO.Path.GetDirectoryName(strSolutionFileName);
-
-                            System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo("cmd.exe");
-                            info.WorkingDirectory = openDir;
-                            System.Diagnostics.Process.Start(info);
-                        }
+                        ZAssistManager.OpenSolutionFolderCmd(_applicationObject);
 
                         handled = true;
                         return;
                     } 
                     if (commandName == "ZAssist.Connect.OpenFileInSolution")
                     {
-                        string strSolutionFileName = _applicationObject.Solution.FileName;
-                        if (strSolutionFileName.Length <= 0)
-                        {
-                            System.Windows.Forms.MessageBox.Show(new WindowWrapper((IntPtr)_applicationObject.MainWindow.HWnd), "Load solution first");
-                        }
-                        else
-                        {
-                            OpenFileInSolutionForm form = new OpenFileInSolutionForm(_applicationObject);
-                            form.Show(new WindowWrapper((IntPtr)_applicationObject.MainWindow.HWnd));
-                        }
+                        ZAssistManager.OpenFileInSolution(_applicationObject);
 
                         handled = true;
                         return;

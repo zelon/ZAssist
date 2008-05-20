@@ -55,5 +55,50 @@ namespace ZAssist
                 System.Diagnostics.Debug.Print("ActiveDocument is null");
             }
         }
+
+        internal static void OpenFileInSolution(DTE2 _applicationObject)
+        {
+            string strSolutionFileName = _applicationObject.Solution.FileName;
+            if (strSolutionFileName.Length <= 0)
+            {
+                System.Windows.Forms.MessageBox.Show(new WindowWrapper((IntPtr)_applicationObject.MainWindow.HWnd), "Load solution first");
+            }
+            else
+            {
+                OpenFileInSolutionForm form = new OpenFileInSolutionForm(_applicationObject);
+                form.Show(new WindowWrapper((IntPtr)_applicationObject.MainWindow.HWnd));
+            }
+        }
+
+        internal static void OpenSolutionFolderCmd(DTE2 _applicationObject)
+        {
+            string strSolutionFileName = _applicationObject.Solution.FileName;
+            if (strSolutionFileName.Length <= 0)
+            {
+                System.Windows.Forms.MessageBox.Show("Load solution first");
+            }
+            else
+            {
+                string openDir = System.IO.Path.GetDirectoryName(strSolutionFileName);
+
+                System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo("cmd.exe");
+                info.WorkingDirectory = openDir;
+                System.Diagnostics.Process.Start(info);
+            }
+        }
+
+        internal static void OpenSolutionFolderExplorer(DTE2 _applicationObject)
+        {
+            string strSolutionFileName = _applicationObject.Solution.FileName;
+            if (strSolutionFileName.Length <= 0)
+            {
+                System.Windows.Forms.MessageBox.Show("Load solution first");
+            }
+            else
+            {
+                string openDir = System.IO.Path.GetDirectoryName(strSolutionFileName);
+                System.Diagnostics.Process.Start(openDir);
+            }
+        }
     }
 }
