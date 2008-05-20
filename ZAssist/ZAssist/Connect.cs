@@ -16,26 +16,39 @@ namespace ZAssist
 	/// <seealso class='IDTExtensibility2' />
 	public class Connect : IDTExtensibility2, IDTCommandTarget
 	{
-        /// <summary>Add-in 개체에 대한 생성자를 구현합니다. 이 메서드 안에 초기화 코드를 만드십시오.</summary>
+		/// <summary>Add-in 개체에 대한 생성자를 구현합니다. 이 메서드 안에 초기화 코드를 만드십시오.</summary>
 		public Connect()
 		{
 		}
 
-        private CommandBarPopup subMenu;
+		private CommandBarPopup subMenu;
 
-        protected System.Collections.Generic.List<NewCommandData> m_commands = new System.Collections.Generic.List<NewCommandData>();
+		protected System.Collections.Generic.List<NewCommandData> m_commands = new System.Collections.Generic.List<NewCommandData>();
 
-        protected class NewCommandData
-        {
-            public string m_strCommandName;
-        }
+		protected class NewCommandData
+		{
+			public NewCommandData(string strCommandName, string strShowName, int iIconIndex)
+			{
+				m_strShowName = strShowName;
+				m_strCommandName = strCommandName;
+				m_iIconIndex = iIconIndex;
+			}
 
-        protected void AddNewSubCommand(string commandName)
-        {
-            NewCommandData newCommand = new NewCommandData();
-            newCommand.m_strCommandName = commandName;
-            m_commands.Add(newCommand);
-        }
+			internal string GetCommandName() { return m_strCommandName; }
+			internal string GetShowName() { return m_strShowName; }
+			internal int GetInconIndex() { return m_iIconIndex; }
+
+			protected string m_strCommandName;
+			protected string m_strShowName;
+			protected int m_iIconIndex;
+
+		}
+
+		protected void AddNewSubCommand(string commandName, string showName, int iconIndex)
+		{
+			NewCommandData newCommand = new NewCommandData(commandName, showName, iconIndex);
+			m_commands.Add(newCommand);
+		}
 
 		/// <summary>IDTExtensibility2 인터페이스의 OnConnection 메서드를 구현합니다. 추가 기능이 로드되고 있다는 알림 메시지를 받습니다.</summary>
 		/// <param term='application'>호스트 응용 프로그램의 루트 개체입니다.</param>
@@ -44,18 +57,19 @@ namespace ZAssist
 		/// <seealso class='IDTExtensibility2' />
 		public void OnConnection(object application, ext_ConnectMode connectMode, object addInInst, ref Array custom)
 		{
-            AddNewSubCommand("OpenSolutionFolderExplorer");
-            AddNewSubCommand("OpenSolutionFolderCmd");
-            AddNewSubCommand("OpenCorrespondingFile");
-            AddNewSubCommand("OpenFileInSolution");
+			AddNewSubCommand("OpenSolutionFolderExplorer", "Open Solution Folder with Explorer", 65);
+			AddNewSubCommand("OpenSolutionFolderCmd", "Open Command Prompt on Solution Folder", 65);
+			AddNewSubCommand("OpenCorrespondingFile", "Toggle Source/Header", 65);
+			AddNewSubCommand("OpenFileInSolution", "Quick Open File In Solution", 65);
+			//AddNewSubCommand("QuickFindFunction", "Quick Find Function", 65);
 
 			_applicationObject = (DTE2)application;
 			_addInInstance = (AddIn)addInInst;
-			if(connectMode == ext_ConnectMode.ext_cm_UISetup ||
-                connectMode == ext_ConnectMode.ext_cm_Startup ||
-                connectMode == ext_ConnectMode.ext_cm_AfterStartup )
+			if (connectMode == ext_ConnectMode.ext_cm_UISetup ||
+				connectMode == ext_ConnectMode.ext_cm_Startup ||
+				connectMode == ext_ConnectMode.ext_cm_AfterStartup)
 			{
-				object []contextGUIDS = new object[] { };
+				object[] contextGUIDS = new object[] { };
 				Commands2 commands = (Commands2)_applicationObject.Commands;
 				string toolsMenuName;
 
@@ -90,48 +104,48 @@ namespace ZAssist
 				try
 				{
 					//명령 컬렉션에 명령 추가:
-                    CommandBar toolsMenu = ((CommandBars)(_applicationObject.CommandBars))["Tools"];
+					CommandBar toolsMenu = ((CommandBars)(_applicationObject.CommandBars))["Tools"];
 
-                    CommandBarPopup commandBarPopup = (CommandBarPopup)toolsMenu.Controls.Add(MsoControlType.msoControlPopup, System.Reflection.Missing.Value, System.Reflection.Missing.Value, 1, true);
+					CommandBarPopup commandBarPopup = (CommandBarPopup)toolsMenu.Controls.Add(MsoControlType.msoControlPopup, System.Reflection.Missing.Value, System.Reflection.Missing.Value, 1, true);
 
-                    subMenu = commandBarPopup;
-                    subMenu.Visible = true;
-                    subMenu.Caption = "ZAssist";
+					subMenu = commandBarPopup;
+					subMenu.Visible = true;
+					subMenu.Caption = "ZAssist";
 
-                    int iMenuIndex = 1;
-                    foreach (NewCommandData newCommData in m_commands)
-                    {
-                        Command newCommand = null;
+					int iMenuIndex = 1;
+					foreach (NewCommandData newCommData in m_commands)
+					{
+						Command newCommand = null;
 
-                        try
-                        {
-                            newCommand = commands.Item(_addInInstance.ProgID + "." + newCommData.m_strCommandName, -1);
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.Print("이미 존재하는지 검사하는 곳에서 exception 발생 : ", ex.Message);
-                        }
+						try
+						{
+							newCommand = commands.Item(_addInInstance.ProgID + "." + newCommData.GetCommandName(), -1);
+						}
+						catch (Exception ex)
+						{
+							System.Diagnostics.Debug.Print("이미 존재하는지 검사하는 곳에서 exception 발생 : ", ex.Message);
+						}
 
-                        if ( null == newCommand )
-                        {
-                            newCommand = commands.AddNamedCommand(_addInInstance, newCommData.m_strCommandName, newCommData.m_strCommandName, newCommData.m_strCommandName, true, 59, ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
-                        }
+						if (null == newCommand)
+						{
+							newCommand = commands.AddNamedCommand(_addInInstance, newCommData.GetCommandName(), newCommData.GetShowName(), newCommData.GetShowName(), true, newCommData.GetInconIndex(), ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
+						}
 
-                        if (newCommand != null)
-                        {
-                            newCommand.AddControl(subMenu.CommandBar, iMenuIndex);
-                        }
+						if (newCommand != null)
+						{
+							newCommand.AddControl(subMenu.CommandBar, iMenuIndex);
+						}
 
-                        ++iMenuIndex;
+						++iMenuIndex;
 
-                    }
+					}
 				}
-				catch(System.ArgumentException ex)
+				catch (System.ArgumentException ex)
 				{
 					//이 경우, 같은 이름의 명령이 이미 있기 때문에 예외가 발생할 수
 					//  있습니다. 이 경우 명령을 다시 만들 필요가 없으며 예외를 무시해도 
-                    //  됩니다.
-                    System.Diagnostics.Debug.Print(ex.Message);
+					//  됩니다.
+					System.Diagnostics.Debug.Print(ex.Message);
 				}
 			}
 		}
@@ -164,7 +178,7 @@ namespace ZAssist
 		public void OnBeginShutdown(ref Array custom)
 		{
 		}
-		
+
 		/// <summary>IDTCommandTarget 인터페이스의 QueryStatus 메서드를 구현합니다. 이 메서드는 명령의 사용 여부가 업데이트되면 호출됩니다.</summary>
 		/// <param term='commandName'>상태를 확인할 명령의 이름입니다.</param>
 		/// <param term='neededText'>명령에 필요한 텍스트입니다.</param>
@@ -173,16 +187,16 @@ namespace ZAssist
 		/// <seealso class='Exec' />
 		public void QueryStatus(string commandName, vsCommandStatusTextWanted neededText, ref vsCommandStatus status, ref object commandText)
 		{
-			if(neededText == vsCommandStatusTextWanted.vsCommandStatusTextWantedNone)
+			if (neededText == vsCommandStatusTextWanted.vsCommandStatusTextWantedNone)
 			{
-                foreach (NewCommandData newCommData in m_commands)
-                {
-                    if (commandName == ("ZAssist.Connect." + newCommData.m_strCommandName))
-                    {
-                        status = (vsCommandStatus)vsCommandStatus.vsCommandStatusSupported | vsCommandStatus.vsCommandStatusEnabled;
-                        return;
-                    }
-                }
+				foreach (NewCommandData newCommData in m_commands)
+				{
+					if (commandName == ("ZAssist.Connect." + newCommData.GetCommandName()))
+					{
+						status = (vsCommandStatus)vsCommandStatus.vsCommandStatusSupported | vsCommandStatus.vsCommandStatusEnabled;
+						return;
+					}
+				}
 			}
 		}
 
@@ -195,46 +209,57 @@ namespace ZAssist
 		/// <seealso class='Exec' />
 		public void Exec(string commandName, vsCommandExecOption executeOption, ref object varIn, ref object varOut, ref bool handled)
 		{
-            try
-            {
-                handled = false;
-                if (executeOption == vsCommandExecOption.vsCommandExecOptionDoDefault)
-                {
-                    if (commandName == "ZAssist.Connect.OpenCorrespondingFile")
-                    {
-                        ZAssistManager.OpenCorrespondingFile(_applicationObject);
+			try
+			{
+				handled = false;
+				if (executeOption == vsCommandExecOption.vsCommandExecOptionDoDefault)
+				{
+					if (commandName == "ZAssist.Connect.OpenCorrespondingFile")
+					{
+						ZAssistManager.OpenCorrespondingFile(_applicationObject);
 
-                        handled = true;
-                        return;
-                    }
-                    if (commandName == "ZAssist.Connect.OpenSolutionFolderExplorer")
-                    {
-                        ZAssistManager.OpenSolutionFolderExplorer(_applicationObject);
+						handled = true;
+						return;
+					}
+					else if (commandName == "ZAssist.Connect.OpenSolutionFolderExplorer")
+					{
+						ZAssistManager.OpenSolutionFolderExplorer(_applicationObject);
 
-                        handled = true;
-                        return;
-                    }
-                    if (commandName == "ZAssist.Connect.OpenSolutionFolderCmd")
-                    {
-                        ZAssistManager.OpenSolutionFolderCmd(_applicationObject);
+						handled = true;
+						return;
+					}
+					else if (commandName == "ZAssist.Connect.OpenSolutionFolderCmd")
+					{
+						ZAssistManager.OpenSolutionFolderCmd(_applicationObject);
 
-                        handled = true;
-                        return;
-                    } 
-                    if (commandName == "ZAssist.Connect.OpenFileInSolution")
-                    {
-                        ZAssistManager.OpenFileInSolution(_applicationObject);
+						handled = true;
+						return;
+					}
+					else if (commandName == "ZAssist.Connect.OpenFileInSolution")
+					{
+						ZAssistManager.OpenFileInSolution(_applicationObject);
 
-                        handled = true;
-                        return;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.Assert(false, ex.Message);
-                System.Diagnostics.Debug.Print(ex.Message);
-            }
+						handled = true;
+						return;
+					}
+					else if (commandName == "ZAssist.Connect.QuickFindFunction")
+					{
+						ZAssistManager.QuickFindFunction(_applicationObject);
+
+						handled = true;
+						return;
+					}
+					else
+					{
+						System.Diagnostics.Debug.Assert(false);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.Assert(false, ex.Message);
+				System.Diagnostics.Debug.Print(ex.Message);
+			}
 		}
 		private DTE2 _applicationObject;
 		private AddIn _addInInstance;

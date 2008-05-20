@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Windows.Forms;
 using EnvDTE;
 using EnvDTE80;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.VisualStudio.VCCodeModel;
 
 namespace ZAssist
 {
@@ -100,5 +102,26 @@ namespace ZAssist
                 System.Diagnostics.Process.Start(openDir);
             }
         }
-    }
+
+		internal static void QuickFindFunction(DTE2 _applicationObject)
+		{
+			VCCodeModel vcCM = null;
+			VCCodeElement vcCodeElement = null;
+			vcCM = ((Microsoft.VisualStudio.VCCodeModel.VCCodeModel)(
+			  _applicationObject.Solution.Item(1).CodeModel));
+			foreach (Microsoft.VisualStudio.VCCodeModel.VCCodeElement temp
+			  in vcCM.CodeElements)
+			{
+				vcCodeElement = temp;
+				System.Diagnostics.Debug.Print(vcCodeElement.Name + " is declared in "
+				  + vcCodeElement.get_Location(vsCMWhere.vsCMWhereDefault));
+
+				if (vcCodeElement.Name.StartsWith("Get"))
+				{
+					int k = 0;
+					++k;
+				}
+			}
+		}
+	}
 }
