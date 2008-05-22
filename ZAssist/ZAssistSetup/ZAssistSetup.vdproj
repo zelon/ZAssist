@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_16143E4E6C47AE3594FAB891EEB9CB0A"
+        "OwnerKey" = "8:_F0022D62BECFD9CD5D8925E18EE8AAE8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2383FDBF0CD2744D0D24B29622105FEB"
         "OwnerKey" = "8:_9001BDC4E3B44B8FB29A11AB955DBF3F"
         "MsmSig" = "8:_UNDEFINED"
@@ -45,6 +51,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_76157CDB385B8042447F40EE02E32786"
+        "OwnerKey" = "8:_F0022D62BECFD9CD5D8925E18EE8AAE8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9001BDC4E3B44B8FB29A11AB955DBF3F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -53,6 +65,12 @@
         {
         "MsmKey" = "8:_94879BD56E03BE3AAF0A82C328540971"
         "OwnerKey" = "8:_76157CDB385B8042447F40EE02E32786"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_94879BD56E03BE3AAF0A82C328540971"
+        "OwnerKey" = "8:_F0022D62BECFD9CD5D8925E18EE8AAE8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -69,6 +87,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F0022D62BECFD9CD5D8925E18EE8AAE8"
+        "OwnerKey" = "8:_9001BDC4E3B44B8FB29A11AB955DBF3F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_94879BD56E03BE3AAF0A82C328540971"
         "MsmSig" = "8:_UNDEFINED"
@@ -77,6 +101,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9001BDC4E3B44B8FB29A11AB955DBF3F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F0022D62BECFD9CD5D8925E18EE8AAE8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -176,6 +206,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_16143E4E6C47AE3594FAB891EEB9CB0A"
+            {
+            "SourcePath" = "8:vcpkg.dll"
+            "TargetName" = "8:vcpkg.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_C0F669FD6B694CBDBB7CF410AD1D8385"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2383FDBF0CD2744D0D24B29622105FEB"
             {
             "AssemblyRegister" = "3:1"
@@ -302,7 +352,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZAssist, Version=1.0.3062.1885, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ZAssist, Version=1.0.3062.43067, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_9001BDC4E3B44B8FB29A11AB955DBF3F"
@@ -380,6 +430,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F0022D62BECFD9CD5D8925E18EE8AAE8"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:TRUE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.VisualStudio.VCCodeModel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_F0022D62BECFD9CD5D8925E18EE8AAE8"
+                    {
+                    "Name" = "8:Microsoft.VisualStudio.VCCodeModel.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.VisualStudio.VCCodeModel.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_C0F669FD6B694CBDBB7CF410AD1D8385"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -423,7 +504,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:ZAssistSetup"
+        "ProductName" = "8:ZAssist"
         "ProductCode" = "8:{E4BF99DE-2B76-4658-8082-5D00DC2DBCDE}"
         "PackageCode" = "8:{EA0B416B-FBF8-424C-8A95-909B6D6FA34B}"
         "UpgradeCode" = "8:{56C85317-22E9-44BD-8C47-03329D7E1718}"
@@ -432,15 +513,15 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:wimy.com"
+        "Manufacturer" = "8:zelon"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:"
+        "ARPHELPLINK" = "8:http://www.wimy.com"
         "Title" = "8:ZAssistSetup"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:wimy.com"
-        "Keywords" = "8:"
+        "ARPCONTACT" = "8:Zelon"
+        "Keywords" = "8:ZAssist"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:http://www.wimy.com"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
