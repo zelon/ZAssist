@@ -30,11 +30,20 @@ namespace ZAssist
 
         private void FindString_TextChanged(object sender, EventArgs e)
         {
+            /// 기존의 들어있던 내용은 다 지운다.
             m_lvCandidate.Items.Clear();
 
             foreach (ProjectFileData data in m_files)
             {
-                if (data.m_strFileName.ToLower().Contains(m_tbFindString.Text.ToLower()))
+                string compareStr = data.m_strFileName;
+
+                /// include extension 체크박스가 꺼져 있고, 찾는 문자열에 . 이 포함되어 있지 않으면 파일명에서만 검색한다.
+                if (m_cbIncludeExt.Checked == false && m_tbFindString.Text.Contains(".") == false )
+                {
+                    compareStr = System.IO.Path.GetFileNameWithoutExtension(compareStr);
+                }
+
+                if (compareStr.ToLower().Contains(m_tbFindString.Text.ToLower()))
                 {
                     ListViewItem item = new ListViewItem(data.m_strFileName);
                     item.SubItems.Add(data.m_strFullPath);
@@ -60,7 +69,6 @@ namespace ZAssist
                 }
                 else
                 {
-
                     Window w = m_app.OpenFile(EnvDTE.Constants.vsViewKindPrimary, fullpath);
 
                     if (w != null)
@@ -80,24 +88,55 @@ namespace ZAssist
 
         void EnumProjectItems(EnvDTE.ProjectItem item)
         {
-            if (item == null) return;
-
-            if (item.Properties == null || item.ProjectItems == null) return;
-
-            if ( item.ProjectItems.Count <= 0)
+            try
             {
-                ProjectFileData data = new ProjectFileData();
-                data.m_strFileName = item.Name;
-                data.m_strFullPath = item.Properties.Item("FullPath").Value.ToString();
+                if (item == null) return;
 
-                m_files.Add(data);
-            }
-            else
-            {
-                foreach (EnvDTE.ProjectItem subItem in item.ProjectItems)
+                if (item.Properties == null || item.ProjectItems == null) return;
+
+                if (item.ProjectItems.Count <= 0)
                 {
-                    EnumProjectItems(subItem);
+                    ProjectFileData data = new ProjectFileData();
+                    data.m_strFileName = item.Name;
+
+                    try
+                    {
+                        data.m_strFullPath = item.Properties.Item("FullPath").Value.ToString();
+
+                        bool bFound = false;
+                        for (int i = 0; i < m_files.Count; ++i)
+                        {
+                            if (m_files[i].m_strFullPath == data.m_strFullPath)
+                            {
+                                bFound = true;
+                                break;
+                            }
+                        }
+
+                        /// 같은 파일은 다시 넣지 않는다.
+                        if (bFound == false)
+                        {
+                            m_files.Add(data);
+                        }
+                    }
+                    catch (ArgumentException ex)///< 이 exception 에 걸리는건 item.Name 이 파일이 없는 "리소스 파일" 같은 폴더(혹은 필터)들이다.
+                    {
+                        System.Diagnostics.Debug.Print("ZAssist : " + ex.Message);
+                    }
+
+
                 }
+                else
+                {
+                    foreach (EnvDTE.ProjectItem subItem in item.ProjectItems)
+                    {
+                        EnumProjectItems(subItem);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.Print("ZAssist : " + e.Message);
             }
         }
 
@@ -108,9 +147,26 @@ namespace ZAssist
             EnvDTE.Projects proj = m_app.Solution.Projects;
             foreach (EnvDTE.Project obj in proj)
             {
-                foreach (EnvDTE.ProjectItem item in obj.ProjectItems)
+                try
                 {
-                    EnumProjectItems(item);
+                    if (obj.ProjectItems != null)
+                    {
+                        foreach (EnvDTE.ProjectItem item in obj.ProjectItems)
+                        {
+                            try
+                            {
+                                EnumProjectItems(item);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.Print(ex.Message);
+                            }
+                        }
+                    }
+                }
+                catch (Exception eee)
+                {
+                    System.Diagnostics.Debug.Print("ZAssist : " + eee.Message);
                 }
             }
         }
@@ -153,6 +209,11 @@ namespace ZAssist
             {
                 m_lvCandidate.Focus();
             }
+        }
+
+        private void OnIncludeExt_CheckedChanged(object sender, EventArgs e)
+        {
+            FindString_TextChanged(sender, e);
         }
     }
 }

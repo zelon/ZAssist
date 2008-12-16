@@ -32,6 +32,7 @@
             this.m_lvCandidate = new System.Windows.Forms.ListView();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.m_cbIncludeExt = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // m_tbFindString
@@ -40,7 +41,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.m_tbFindString.Location = new System.Drawing.Point(0, 0);
             this.m_tbFindString.Name = "m_tbFindString";
-            this.m_tbFindString.Size = new System.Drawing.Size(624, 21);
+            this.m_tbFindString.Size = new System.Drawing.Size(474, 21);
             this.m_tbFindString.TabIndex = 0;
             this.m_tbFindString.TextChanged += new System.EventHandler(this.FindString_TextChanged);
             this.m_tbFindString.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindString_KeyDown);
@@ -75,11 +76,23 @@
             this.columnHeader2.Text = "Full Path";
             this.columnHeader2.Width = 460;
             // 
+            // m_cbIncludeExt
+            // 
+            this.m_cbIncludeExt.AutoSize = true;
+            this.m_cbIncludeExt.Location = new System.Drawing.Point(480, 5);
+            this.m_cbIncludeExt.Name = "m_cbIncludeExt";
+            this.m_cbIncludeExt.Size = new System.Drawing.Size(132, 16);
+            this.m_cbIncludeExt.TabIndex = 2;
+            this.m_cbIncludeExt.Text = "Include Extensions";
+            this.m_cbIncludeExt.UseVisualStyleBackColor = true;
+            this.m_cbIncludeExt.CheckedChanged += new System.EventHandler(this.OnIncludeExt_CheckedChanged);
+            // 
             // OpenFileInSolutionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 266);
+            this.Controls.Add(this.m_cbIncludeExt);
             this.Controls.Add(this.m_lvCandidate);
             this.Controls.Add(this.m_tbFindString);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -98,5 +111,6 @@
         private System.Windows.Forms.ListView m_lvCandidate;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.CheckBox m_cbIncludeExt;
     }
 }

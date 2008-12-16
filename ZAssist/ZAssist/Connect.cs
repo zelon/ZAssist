@@ -106,39 +106,47 @@ namespace ZAssist
 					//명령 컬렉션에 명령 추가:
 					CommandBar toolsMenu = ((CommandBars)(_applicationObject.CommandBars))["Tools"];
 
-					CommandBarPopup commandBarPopup = (CommandBarPopup)toolsMenu.Controls.Add(MsoControlType.msoControlPopup, System.Reflection.Missing.Value, System.Reflection.Missing.Value, 1, true);
+                    try
+                    {
+                        /// 아래 문장에서 catch 로 빠진다는 건 ZAssist 가 메뉴에 없다는 말이다.
+                        CommandBarPopup k = (CommandBarPopup)(toolsMenu.Controls["ZAssist"]);
+                        k.Caption = k.Caption + "+";
+                    }
+                    catch (ArgumentException)
+                    {
+                        CommandBarPopup commandBarPopup = (CommandBarPopup)toolsMenu.Controls.Add(MsoControlType.msoControlPopup, System.Reflection.Missing.Value, System.Reflection.Missing.Value, 1, true);
 
-					subMenu = commandBarPopup;
-					subMenu.Visible = true;
-					subMenu.Caption = "ZAssist";
+                        subMenu = commandBarPopup;
+                        subMenu.Visible = true;
+                        subMenu.Caption = "ZAssist";
 
-					int iMenuIndex = 1;
-					foreach (NewCommandData newCommData in m_commands)
-					{
-						Command newCommand = null;
+                        int iMenuIndex = 1;
+                        foreach (NewCommandData newCommData in m_commands)
+                        {
+                            Command newCommand = null;
 
-						try
-						{
-							newCommand = commands.Item(_addInInstance.ProgID + "." + newCommData.GetCommandName(), -1);
-						}
-						catch (Exception ex)
-						{
-							System.Diagnostics.Debug.Print("이미 존재하는지 검사하는 곳에서 exception 발생 : ", ex.Message);
-						}
+                            try
+                            {
+                                newCommand = commands.Item(_addInInstance.ProgID + "." + newCommData.GetCommandName(), -1);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.Print("이미 존재하는지 검사하는 곳에서 exception 발생 : ", ex.Message);
+                            }
 
-						if (null == newCommand)
-						{
-							newCommand = commands.AddNamedCommand(_addInInstance, newCommData.GetCommandName(), newCommData.GetShowName(), newCommData.GetShowName(), true, newCommData.GetInconIndex(), ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
-						}
+                            if (null == newCommand)
+                            {
+                                newCommand = commands.AddNamedCommand(_addInInstance, newCommData.GetCommandName(), newCommData.GetShowName(), newCommData.GetShowName(), true, newCommData.GetInconIndex(), ref contextGUIDS, (int)vsCommandStatus.vsCommandStatusSupported + (int)vsCommandStatus.vsCommandStatusEnabled);
+                            }
 
-						if (newCommand != null)
-						{
-							newCommand.AddControl(subMenu.CommandBar, iMenuIndex);
-						}
+                            if (newCommand != null)
+                            {
+                                newCommand.AddControl(subMenu.CommandBar, iMenuIndex);
+                            }
 
-						++iMenuIndex;
-
-					}
+                            ++iMenuIndex;
+                        }
+                    }
 				}
 				catch (System.ArgumentException ex)
 				{
@@ -257,7 +265,9 @@ namespace ZAssist
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.Assert(false, ex.Message);
+                System.Diagnostics.Debug.Print("ZAssist : Exception ocuured!!! : " + ex.Message);
+                
+                System.Diagnostics.Debug.Assert(false, ex.Message);
 				System.Diagnostics.Debug.Print(ex.Message);
 			}
 		}
