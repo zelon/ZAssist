@@ -61,7 +61,8 @@ namespace ZAssist
 			AddNewSubCommand("OpenSolutionFolderCmd", "Open Command Prompt on Solution Folder", 65);
 			AddNewSubCommand("OpenCorrespondingFile", "Toggle Source/Header", 65);
 			AddNewSubCommand("OpenFileInSolution", "Quick Open File In Solution", 65);
-			//AddNewSubCommand("QuickFindFunction", "Quick Find Function", 65);
+            AddNewSubCommand("About", "About ZAssist...", 65);
+            //AddNewSubCommand("QuickFindFunction", "Quick Find Function", 65);
 
 			_applicationObject = (DTE2)application;
 			_addInInstance = (AddIn)addInInst;
@@ -110,7 +111,7 @@ namespace ZAssist
                     {
                         /// 아래 문장에서 catch 로 빠진다는 건 ZAssist 가 메뉴에 없다는 말이다.
                         CommandBarPopup k = (CommandBarPopup)(toolsMenu.Controls["ZAssist"]);
-                        k.Caption = k.Caption + "+";
+                        k.Caption = k.Caption + "";
                     }
                     catch (ArgumentException)
                     {
@@ -222,7 +223,12 @@ namespace ZAssist
 				handled = false;
 				if (executeOption == vsCommandExecOption.vsCommandExecOptionDoDefault)
 				{
-					if (commandName == "ZAssist.Connect.OpenCorrespondingFile")
+                    if (commandName == "ZAssist.Connect.About")
+                    {
+                        About aboutDlg = new About();
+                        aboutDlg.ShowDialog(new WindowWrapper((IntPtr)_applicationObject.MainWindow.HWnd));
+                    }
+					else if (commandName == "ZAssist.Connect.OpenCorrespondingFile")
 					{
 						ZAssistManager.OpenCorrespondingFile(_applicationObject);
 
