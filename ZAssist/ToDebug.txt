@@ -4,7 +4,7 @@
  or
 
  put move this file - "ZAssist - For Testing.AddIn" - to C:\Documents and Settings\USER_ID\My Documents\Visual Studio 2005\Addins
-
+ and check the file path of ZAssist.dll
 
 
  -- Project 김진욱 - Jinwook Kim --
