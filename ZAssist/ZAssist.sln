@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZAssist", "ZAssist\ZAssist.csproj", "{1F780EB7-0FC3-486A-8832-827007799E61}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ZAssistSetup", "ZAssistSetup\ZAssistSetup.vdproj", "{31B8CC6E-38A3-4582-BC80-6499375D2AA7}"

@@ -107,10 +107,10 @@ namespace ZAssist
 		{
 			VCCodeModel vcCM = null;
 			VCCodeElement vcCodeElement = null;
-			vcCM = ((Microsoft.VisualStudio.VCCodeModel.VCCodeModel)(
-			  _applicationObject.Solution.Item(1).CodeModel));
-			foreach (Microsoft.VisualStudio.VCCodeModel.VCCodeElement temp
-			  in vcCM.CodeElements)
+
+            vcCM = ((Microsoft.VisualStudio.VCCodeModel.VCCodeModel)(_applicationObject.Solution.Item(1).CodeModel));
+
+            foreach (Microsoft.VisualStudio.VCCodeModel.VCCodeElement temp in vcCM.CodeElements)
 			{
 				vcCodeElement = temp;
 				System.Diagnostics.Debug.Print(vcCodeElement.Name + " is declared in "
