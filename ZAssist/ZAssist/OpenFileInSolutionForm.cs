@@ -17,21 +17,39 @@ namespace ZAssist
         {
             m_app = _app;
             InitializeComponent();
-            BuildFilesListInSolution();
+
+            m_originalTitle = this.Text;
+
+            FileCollector.GetInstance(_app).StartCollect();
+
+            UpdateTitle();
         }
 
-        protected struct ProjectFileData
+        private string m_originalTitle;
+        private void UpdateTitle()
         {
-            public string m_strFileName;
-            public string m_strFullPath;
-        }
+            StringBuilder builder = new StringBuilder(m_originalTitle);
+            
+            if ( FileCollector.GetInstance(m_app).Collecting )
+            {
+                builder.Append(" - collecting - ");
+                builder.Append(FileCollector.GetInstance(m_app).GetFiles().Count);
+            }
+            else
+            {
+                builder.Append(" - collected - ");
+                builder.Append(FileCollector.GetInstance(m_app).GetFiles().Count);
+            }
 
-        protected List<ProjectFileData> m_files = new List<ProjectFileData>();
+            this.Text = builder.ToString();
+        }
 
         private void FindString_TextChanged(object sender, EventArgs e)
         {
             /// 기존의 들어있던 내용은 다 지운다.
             m_lvCandidate.Items.Clear();
+
+            List<ProjectFileData> m_files = FileCollector.GetInstance(m_app).GetFiles();
 
             foreach (ProjectFileData data in m_files)
             {
@@ -86,90 +104,6 @@ namespace ZAssist
             }
         }
 
-        void EnumProjectItems(EnvDTE.ProjectItem item)
-        {
-            try
-            {
-                if (item == null) return;
-
-                if (item.Properties == null || item.ProjectItems == null) return;
-
-                if (item.ProjectItems.Count <= 0)
-                {
-                    ProjectFileData data = new ProjectFileData();
-                    data.m_strFileName = item.Name;
-
-                    try
-                    {
-                        data.m_strFullPath = item.Properties.Item("FullPath").Value.ToString();
-
-                        bool bFound = false;
-                        for (int i = 0; i < m_files.Count; ++i)
-                        {
-                            if (m_files[i].m_strFullPath == data.m_strFullPath)
-                            {
-                                bFound = true;
-                                break;
-                            }
-                        }
-
-                        /// 같은 파일은 다시 넣지 않는다.
-                        if (bFound == false)
-                        {
-                            m_files.Add(data);
-                        }
-                    }
-                    catch (ArgumentException ex)///< 이 exception 에 걸리는건 item.Name 이 파일이 없는 "리소스 파일" 같은 폴더(혹은 필터)들이다.
-                    {
-                        System.Diagnostics.Debug.Print("ZAssist : " + ex.Message);
-                    }
-
-
-                }
-                else
-                {
-                    foreach (EnvDTE.ProjectItem subItem in item.ProjectItems)
-                    {
-                        EnumProjectItems(subItem);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.Print("ZAssist : " + e.Message);
-            }
-        }
-
-        private void BuildFilesListInSolution()
-        {
-            List<string> ret = new List<string>();
-
-            EnvDTE.Projects proj = m_app.Solution.Projects;
-            foreach (EnvDTE.Project obj in proj)
-            {
-                try
-                {
-                    if (obj.ProjectItems != null)
-                    {
-                        foreach (EnvDTE.ProjectItem item in obj.ProjectItems)
-                        {
-                            try
-                            {
-                                EnumProjectItems(item);
-                            }
-                            catch (Exception ex)
-                            {
-                                System.Diagnostics.Debug.Print(ex.Message);
-                            }
-                        }
-                    }
-                }
-                catch (Exception eee)
-                {
-                    System.Diagnostics.Debug.Print("ZAssist : " + eee.Message);
-                }
-            }
-        }
 
         private void FileCandidateList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -214,6 +148,11 @@ namespace ZAssist
         private void OnIncludeExt_CheckedChanged(object sender, EventArgs e)
         {
             FindString_TextChanged(sender, e);
+        }
+
+        private void m_btRefreshStatus_Click(object sender, EventArgs e)
+        {
+            UpdateTitle();
         }
     }
 }

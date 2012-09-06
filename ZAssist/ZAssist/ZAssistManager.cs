@@ -5,7 +5,7 @@ using EnvDTE80;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.VisualStudio.VCCodeModel;
+//using Microsoft.VisualStudio;
 
 namespace ZAssist
 {
@@ -105,6 +105,7 @@ namespace ZAssist
 
 		internal static void QuickFindFunction(DTE2 _applicationObject)
 		{
+            /*
 			VCCodeModel vcCM = null;
 			VCCodeElement vcCodeElement = null;
 
@@ -122,6 +123,7 @@ namespace ZAssist
 					++k;
 				}
 			}
+             * */
 		}
 	}
 }

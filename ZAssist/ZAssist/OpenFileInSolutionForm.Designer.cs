@@ -30,9 +30,10 @@
         {
             this.m_tbFindString = new System.Windows.Forms.TextBox();
             this.m_lvCandidate = new System.Windows.Forms.ListView();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.m_cbIncludeExt = new System.Windows.Forms.CheckBox();
+            this.m_btRefreshStatus = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // m_tbFindString
@@ -41,7 +42,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.m_tbFindString.Location = new System.Drawing.Point(0, 0);
             this.m_tbFindString.Name = "m_tbFindString";
-            this.m_tbFindString.Size = new System.Drawing.Size(474, 21);
+            this.m_tbFindString.Size = new System.Drawing.Size(405, 21);
             this.m_tbFindString.TabIndex = 0;
             this.m_tbFindString.TextChanged += new System.EventHandler(this.FindString_TextChanged);
             this.m_tbFindString.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindString_KeyDown);
@@ -63,8 +64,8 @@
             this.m_lvCandidate.TabIndex = 1;
             this.m_lvCandidate.UseCompatibleStateImageBehavior = false;
             this.m_lvCandidate.View = System.Windows.Forms.View.Details;
-            this.m_lvCandidate.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FileCandidateList_MouseDoubleClick);
             this.m_lvCandidate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FileCandidateList_KeyPress);
+            this.m_lvCandidate.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FileCandidateList_MouseDoubleClick);
             // 
             // columnHeader1
             // 
@@ -79,7 +80,7 @@
             // m_cbIncludeExt
             // 
             this.m_cbIncludeExt.AutoSize = true;
-            this.m_cbIncludeExt.Location = new System.Drawing.Point(480, 5);
+            this.m_cbIncludeExt.Location = new System.Drawing.Point(411, 5);
             this.m_cbIncludeExt.Name = "m_cbIncludeExt";
             this.m_cbIncludeExt.Size = new System.Drawing.Size(132, 16);
             this.m_cbIncludeExt.TabIndex = 2;
@@ -87,11 +88,22 @@
             this.m_cbIncludeExt.UseVisualStyleBackColor = true;
             this.m_cbIncludeExt.CheckedChanged += new System.EventHandler(this.OnIncludeExt_CheckedChanged);
             // 
+            // m_btRefreshStatus
+            // 
+            this.m_btRefreshStatus.Location = new System.Drawing.Point(549, 1);
+            this.m_btRefreshStatus.Name = "m_btRefreshStatus";
+            this.m_btRefreshStatus.Size = new System.Drawing.Size(75, 23);
+            this.m_btRefreshStatus.TabIndex = 3;
+            this.m_btRefreshStatus.Text = "Refresh";
+            this.m_btRefreshStatus.UseVisualStyleBackColor = true;
+            this.m_btRefreshStatus.Click += new System.EventHandler(this.m_btRefreshStatus_Click);
+            // 
             // OpenFileInSolutionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 266);
+            this.Controls.Add(this.m_btRefreshStatus);
             this.Controls.Add(this.m_cbIncludeExt);
             this.Controls.Add(this.m_lvCandidate);
             this.Controls.Add(this.m_tbFindString);
@@ -112,5 +124,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.CheckBox m_cbIncludeExt;
+        private System.Windows.Forms.Button m_btRefreshStatus;
     }
 }
