@@ -3,7 +3,7 @@
 		  http://msdn.microsoft.com/en-us/library/19dax6cz(VS.80).aspx
  or
 
- put move this file - "ZAssist - For Testing.AddIn" - to C:\Documents and Settings\USER_ID\My Documents\Visual Studio 2005\Addins
+ put move this file - "ZAssist - For Testing.AddIn" - to C:\Documents and Settings\USER_ID\My Documents\Visual Studio 2010\Addins
  and check the file path of ZAssist.dll
 
 
