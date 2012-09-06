@@ -130,7 +130,6 @@ namespace ZAssist
                         /// 같은 파일은 다시 넣지 않는다.
                         if (bFound == false)
                         {
-                            Thread.Sleep(5000);
                             m_files.Add(data);
                         }
                     }
