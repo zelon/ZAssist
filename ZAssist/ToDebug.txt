@@ -3,8 +3,9 @@
 		  http://msdn.microsoft.com/en-us/library/19dax6cz(VS.80).aspx
  or
 
- put move this file - "ZAssist - For Testing.AddIn" - to C:\Documents and Settings\USER_ID\My Documents\Visual Studio 2010\Addins
- and check the file path of ZAssist.dll
-
-
- -- Project 김진욱 - Jinwook Kim --
+0. Put move this file - "ZAssist - For Testing.AddIn" - to My Documents\Visual Studio 2010\Addins
+1. Check the file path of ZAssist.dll
+2. Rename the extension from "Addin" to "Addin_". Add underscope
+3. Launch Visual Studio with ZAssist.sln
+4. Rename the extension from "Addin_" to "Addin"
+5. Start Debug(F5)
