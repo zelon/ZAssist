@@ -15,12 +15,13 @@ namespace ZAssist
         private DTE2 m_app;
         public OpenFileInSolutionForm(DTE2 _app)
         {
+            FileCollector.GetInstance().SetDTE(_app);
+            FileCollector.GetInstance().StartCollect();
+
             m_app = _app;
             InitializeComponent();
 
             m_originalTitle = this.Text;
-
-            FileCollector.GetInstance(_app).StartCollect();
 
             UpdateTitle();
         }
@@ -30,15 +31,15 @@ namespace ZAssist
         {
             StringBuilder builder = new StringBuilder(m_originalTitle);
             
-            if ( FileCollector.GetInstance(m_app).Collecting )
+            if ( FileCollector.GetInstance().Collecting )
             {
                 builder.Append(" - collecting - ");
-                builder.Append(FileCollector.GetInstance(m_app).GetFiles().Count);
+                builder.Append(FileCollector.GetInstance().GetCollectedFileCount());
             }
             else
             {
                 builder.Append(" - collected - ");
-                builder.Append(FileCollector.GetInstance(m_app).GetFiles().Count);
+                builder.Append(FileCollector.GetInstance().GetCollectedFileCount());
             }
 
             this.Text = builder.ToString();
@@ -49,7 +50,7 @@ namespace ZAssist
             /// 기존의 들어있던 내용은 다 지운다.
             m_lvCandidate.Items.Clear();
 
-            List<ProjectFileData> m_files = FileCollector.GetInstance(m_app).GetFiles();
+            List<ProjectFileData> m_files = FileCollector.GetInstance().GetFiles();
 
             foreach (ProjectFileData data in m_files)
             {
@@ -87,14 +88,21 @@ namespace ZAssist
                 }
                 else
                 {
-                    Window w = m_app.OpenFile(EnvDTE.Constants.vsViewKindPrimary, fullpath);
-
-                    if (w != null)
+                    try
                     {
-                        w.SetFocus();
-                        w.Activate();
+                        Window w = m_app.OpenFile(EnvDTE.Constants.vsViewKindPrimary, fullpath);
 
-                        Close();
+                        if (w != null)
+                        {
+                            w.SetFocus();
+                            w.Activate();
+
+                            Close();
+                        }
+                    }
+                    catch (System.Runtime.InteropServices.COMException ex)
+                    {
+                        MessageBox.Show(this.Owner, "Cannot open the file");
                     }
                 }
             }
@@ -151,6 +159,11 @@ namespace ZAssist
         }
 
         private void m_btRefreshStatus_Click(object sender, EventArgs e)
+        {
+            FileCollector.GetInstance().Recollect();
+        }
+
+        private void m_timer_Tick(object sender, EventArgs e)
         {
             UpdateTitle();
         }
