@@ -70,7 +70,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "FileName";
-            this.columnHeader1.Width = 160;
+            this.columnHeader1.Width = 250;
             // 
             // columnHeader2
             // 
