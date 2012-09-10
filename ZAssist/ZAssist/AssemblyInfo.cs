@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("ZAssist")]
 [assembly: AssemblyDescription("ZAssist assist your coding")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("RhLab")]
+[assembly: AssemblyCompany("Wimy")]
 [assembly: AssemblyProduct("ZAssist")]
 [assembly: AssemblyCopyright("Zelon")]
 [assembly: AssemblyTrademark("")]
@@ -26,7 +26,7 @@ using System.Runtime.CompilerServices;
 // 모든 값을 지정하거나 아래와 같이 '*'를 사용하여 빌드 번호 및 수정 버전이 자동으로
 // 지정되도록 할 수 있습니다.
 
-[assembly: AssemblyVersion("1.1.*")]
+[assembly: AssemblyVersion("2.0.*")]
 
 //
 // 어셈블리에 서명하려면 사용할 키를 지정해야 합니다.
