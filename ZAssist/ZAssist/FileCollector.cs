@@ -9,20 +9,23 @@ namespace ZAssist
 {
     class FileCollector
     {
-        private FileCollector(DTE2 app)
+        private FileCollector()
         {
             needReCollect = true;
             m_thread = null;
             m_files = new List<ProjectFileData>();
+        }
+
+        public void SetDTE(DTE2 app)
+        {
             m_app = app;
         }
 
-        public static FileCollector GetInstance(DTE2 app)
+        public static FileCollector GetInstance()
         {
-
             if ( instance == null )
             {
-                instance = new FileCollector(app);
+                instance = new FileCollector();
             }
             return instance;
         }
@@ -35,6 +38,15 @@ namespace ZAssist
         protected List<ProjectFileData> m_files;
         public List<ProjectFileData> GetFiles() { return m_files; }
 
+        public int GetCollectedFileCount()
+        {
+            if (m_files != null)
+            {
+                return m_files.Count;
+            }
+            return 0;
+        }
+
         private bool collecting;
         public bool Collecting
         {
@@ -46,17 +58,28 @@ namespace ZAssist
         public void Recollect()
         {
             needReCollect = true;
+
+            if (m_thread != null)
+            {
+                m_thread.Join();
+                m_thread = null;
+            }
+
             StartCollect();
         }
         
         public void StartCollect()
         {
+            System.Diagnostics.Debug.Assert(m_app != null);
+
             if (needReCollect)
             {
+                needReCollect = false;
+
+                m_files.Clear();
+
                 m_thread = new Thread(new ThreadStart(startCollect));
                 m_thread.Start();
-
-                needReCollect = false;
             }
         }
 
@@ -111,6 +134,8 @@ namespace ZAssist
                     foreach (EnvDTE.ProjectItem subitem in item.SubProject.ProjectItems)
                     {
                         EnumProjectItems(subitem);
+
+                        if (needReCollect) break;
                     }
                 }
 
@@ -128,6 +153,7 @@ namespace ZAssist
                         bool bFound = false;
                         for (int i = 0; i < m_files.Count; ++i)
                         {
+                            if (needReCollect) break;
                             if (m_files[i].m_strFullPath == data.m_strFullPath)
                             {
                                 bFound = true;
@@ -145,13 +171,12 @@ namespace ZAssist
                     {
                         System.Diagnostics.Debug.Print("ZAssist : " + ex.Message);
                     }
-
-
                 }
                 else
                 {
                     foreach (EnvDTE.ProjectItem subItem in item.ProjectItems)
                     {
+                        if (needReCollect) break;
                         EnumProjectItems(subItem);
                     }
                 }

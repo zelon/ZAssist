@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.m_tbFindString = new System.Windows.Forms.TextBox();
             this.m_lvCandidate = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.m_cbIncludeExt = new System.Windows.Forms.CheckBox();
-            this.m_btRefreshStatus = new System.Windows.Forms.Button();
+            this.m_btRecollect = new System.Windows.Forms.Button();
+            this.m_timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // m_tbFindString
@@ -75,7 +77,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Full Path";
-            this.columnHeader2.Width = 460;
+            this.columnHeader2.Width = 582;
             // 
             // m_cbIncludeExt
             // 
@@ -89,23 +91,29 @@
             this.m_cbIncludeExt.UseVisualStyleBackColor = true;
             this.m_cbIncludeExt.CheckedChanged += new System.EventHandler(this.OnIncludeExt_CheckedChanged);
             // 
-            // m_btRefreshStatus
+            // m_btRecollect
             // 
-            this.m_btRefreshStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_btRefreshStatus.Location = new System.Drawing.Point(764, 1);
-            this.m_btRefreshStatus.Name = "m_btRefreshStatus";
-            this.m_btRefreshStatus.Size = new System.Drawing.Size(75, 23);
-            this.m_btRefreshStatus.TabIndex = 3;
-            this.m_btRefreshStatus.Text = "Refresh";
-            this.m_btRefreshStatus.UseVisualStyleBackColor = true;
-            this.m_btRefreshStatus.Click += new System.EventHandler(this.m_btRefreshStatus_Click);
+            this.m_btRecollect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.m_btRecollect.Location = new System.Drawing.Point(764, 1);
+            this.m_btRecollect.Name = "m_btRecollect";
+            this.m_btRecollect.Size = new System.Drawing.Size(75, 23);
+            this.m_btRecollect.TabIndex = 3;
+            this.m_btRecollect.Text = "Recollect";
+            this.m_btRecollect.UseVisualStyleBackColor = true;
+            this.m_btRecollect.Click += new System.EventHandler(this.m_btRefreshStatus_Click);
+            // 
+            // m_timer
+            // 
+            this.m_timer.Enabled = true;
+            this.m_timer.Interval = 1000;
+            this.m_timer.Tick += new System.EventHandler(this.m_timer_Tick);
             // 
             // OpenFileInSolutionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(839, 266);
-            this.Controls.Add(this.m_btRefreshStatus);
+            this.Controls.Add(this.m_btRecollect);
             this.Controls.Add(this.m_cbIncludeExt);
             this.Controls.Add(this.m_lvCandidate);
             this.Controls.Add(this.m_tbFindString);
@@ -126,6 +134,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.CheckBox m_cbIncludeExt;
-        private System.Windows.Forms.Button m_btRefreshStatus;
+        private System.Windows.Forms.Button m_btRecollect;
+        private System.Windows.Forms.Timer m_timer;
     }
 }
