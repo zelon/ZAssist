@@ -106,6 +106,14 @@ namespace ZAssist
             {
                 if (item == null) return;
 
+                if (item.SubProject != null)
+                {
+                    foreach (EnvDTE.ProjectItem subitem in item.SubProject.ProjectItems)
+                    {
+                        EnumProjectItems(subitem);
+                    }
+                }
+
                 if (item.Properties == null || item.ProjectItems == null) return;
 
                 if (item.ProjectItems.Count <= 0)
