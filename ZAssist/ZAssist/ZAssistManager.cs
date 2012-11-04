@@ -17,39 +17,40 @@ namespace ZAssist
             {
                 string filename = System.IO.Path.GetFullPath(_applicationObject.ActiveDocument.FullName);
 
-                if (filename.ToLower().EndsWith(".h") || filename.ToLower().EndsWith(".cpp") || filename.ToLower().EndsWith(".c"))
+                string[] extChain = new string[] { ".h", ".hpp", ".cpp", ".c" };
+
+                for ( int i=0; i<extChain.Length; ++i )
                 {
-                    string newfilename = System.IO.Path.GetDirectoryName(filename) + "\\" + System.IO.Path.GetFileNameWithoutExtension(filename);
-
-                    switch (System.IO.Path.GetExtension(filename).ToLower())
+                    if (filename.ToLower().EndsWith(extChain[i]))
                     {
-                        case ".h":
-                            newfilename += ".cpp";
-                            break;
+                        int nextIndex = i;
 
-                        case ".cpp":
-                            newfilename += ".h";
-                            break;
-
-                        case ".c":
-                            newfilename += ".h";
-                            break;
-                    }
-
-                    if (File.Exists(newfilename))
-                    {
-                        Window w = _applicationObject.OpenFile(EnvDTE.Constants.vsViewKindPrimary, newfilename);
-
-                        if (w != null)
+                        for (int j = 0; j < extChain.Length; ++j)
                         {
-                            w.Activate();
-                        }
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.Print("There is no file : " + newfilename);
-                    }
+                            nextIndex = (nextIndex + 1) % extChain.Length;
 
+                            string nextExt = extChain[nextIndex];
+
+                            string newfilename = System.IO.Path.GetDirectoryName(filename) + "\\" + System.IO.Path.GetFileNameWithoutExtension(filename);
+                            newfilename += nextExt;
+
+                            if (File.Exists(newfilename))
+                            {
+                                Window w = _applicationObject.OpenFile(EnvDTE.Constants.vsViewKindPrimary, newfilename);
+
+                                if (w != null)
+                                {
+                                    w.Activate();
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.Print("There is no file : " + newfilename);
+                            }
+                        }
+                        break;
+                    }
                 }
             }
             else
