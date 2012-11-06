@@ -44,7 +44,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.m_tbFindString.Location = new System.Drawing.Point(0, 0);
             this.m_tbFindString.Name = "m_tbFindString";
-            this.m_tbFindString.Size = new System.Drawing.Size(405, 21);
+            this.m_tbFindString.Size = new System.Drawing.Size(620, 21);
             this.m_tbFindString.TabIndex = 0;
             this.m_tbFindString.TextChanged += new System.EventHandler(this.FindString_TextChanged);
             this.m_tbFindString.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindString_KeyDown);
@@ -62,7 +62,7 @@
             this.m_lvCandidate.HideSelection = false;
             this.m_lvCandidate.Location = new System.Drawing.Point(0, 27);
             this.m_lvCandidate.Name = "m_lvCandidate";
-            this.m_lvCandidate.Size = new System.Drawing.Size(624, 218);
+            this.m_lvCandidate.Size = new System.Drawing.Size(839, 218);
             this.m_lvCandidate.TabIndex = 1;
             this.m_lvCandidate.UseCompatibleStateImageBehavior = false;
             this.m_lvCandidate.View = System.Windows.Forms.View.Details;
@@ -81,8 +81,9 @@
             // 
             // m_cbIncludeExt
             // 
+            this.m_cbIncludeExt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.m_cbIncludeExt.AutoSize = true;
-            this.m_cbIncludeExt.Location = new System.Drawing.Point(411, 5);
+            this.m_cbIncludeExt.Location = new System.Drawing.Point(626, 5);
             this.m_cbIncludeExt.Name = "m_cbIncludeExt";
             this.m_cbIncludeExt.Size = new System.Drawing.Size(132, 16);
             this.m_cbIncludeExt.TabIndex = 2;
@@ -92,15 +93,6 @@
             // 
             // m_btRecollect
             // 
-<<<<<<< master
-            this.m_btRefreshStatus.Location = new System.Drawing.Point(549, 1);
-            this.m_btRefreshStatus.Name = "m_btRefreshStatus";
-            this.m_btRefreshStatus.Size = new System.Drawing.Size(75, 23);
-            this.m_btRefreshStatus.TabIndex = 3;
-            this.m_btRefreshStatus.Text = "Refresh";
-            this.m_btRefreshStatus.UseVisualStyleBackColor = true;
-            this.m_btRefreshStatus.Click += new System.EventHandler(this.m_btRefreshStatus_Click);
-=======
             this.m_btRecollect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.m_btRecollect.Location = new System.Drawing.Point(764, 1);
             this.m_btRecollect.Name = "m_btRecollect";
@@ -115,19 +107,13 @@
             this.m_timer.Enabled = true;
             this.m_timer.Interval = 1000;
             this.m_timer.Tick += new System.EventHandler(this.m_timer_Tick);
->>>>>>> 8432fea Implemented recollect feature and removed refresh button and added refresh timer
             // 
             // OpenFileInSolutionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-<<<<<<< master
-            this.ClientSize = new System.Drawing.Size(624, 266);
-            this.Controls.Add(this.m_btRefreshStatus);
-=======
             this.ClientSize = new System.Drawing.Size(839, 266);
             this.Controls.Add(this.m_btRecollect);
->>>>>>> 8432fea Implemented recollect feature and removed refresh button and added refresh timer
             this.Controls.Add(this.m_cbIncludeExt);
             this.Controls.Add(this.m_lvCandidate);
             this.Controls.Add(this.m_tbFindString);
